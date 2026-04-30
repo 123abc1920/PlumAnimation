@@ -87,10 +87,4 @@
 
 ## Запись работы:
 
-<iframe 
-    src="https://disk.yandex.ru/i/juKYM8zCXp8AHQ" 
-    width="100%" 
-    height="400" 
-    frameborder="0" 
-    allowfullscreen>
-</iframe>
+https://disk.yandex.ru/i/juKYM8zCXp8AHQ
