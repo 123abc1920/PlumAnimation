@@ -87,4 +87,10 @@
 
 ## Запись работы:
 
-[Видео](http://170.168.15.70:7000/itograbbit.mp4)
+<iframe 
+    src="https://disk.yandex.ru/i/juKYM8zCXp8AHQ" 
+    width="100%" 
+    height="400" 
+    frameborder="0" 
+    allowfullscreen>
+</iframe>
