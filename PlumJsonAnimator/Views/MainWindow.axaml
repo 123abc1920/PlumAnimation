@@ -290,7 +290,7 @@
                         ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock PointerPressed="OnResPointerPressed" Text="{Binding Name}">
+                                <Grid HorizontalAlignment="Stretch" Background="Transparent">
                                     <ToolTip.Tip>
                                         <Image
                                             MaxWidth="200"
@@ -298,7 +298,11 @@
                                             Source="{Binding Preview}"
                                             Stretch="Uniform" />
                                     </ToolTip.Tip>
-                                </TextBlock>
+                                    <TextBlock
+                                        HorizontalAlignment="Stretch"
+                                        PointerPressed="OnResPointerPressed"
+                                        Text="{Binding Name}" />
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
