@@ -319,8 +319,6 @@ public partial class MainWindow : SukiWindow
                     {
                         viewModel.IsAnimMode = false;
                     }
-
-                    Console.WriteLine(viewModel.IsAnimMode);
                 }
             }
         }
@@ -328,7 +326,7 @@ public partial class MainWindow : SukiWindow
 
     private void OnBonePointerPressed(object sender, TappedEventArgs e)
     {
-        if (sender is StackPanel panel && panel.DataContext is Bone bone)
+        if (sender is TreeView treeView && treeView.SelectedItem is Bone bone)
         {
             if (DataContext is MainWindowViewModel viewModel)
             {
@@ -340,7 +338,6 @@ public partial class MainWindow : SukiWindow
                 else
                 {
                     viewModel.CurrentBone = bone;
-
                     Console.WriteLine("Bone");
                 }
             }

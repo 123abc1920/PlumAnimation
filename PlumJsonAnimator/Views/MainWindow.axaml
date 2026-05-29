@@ -684,10 +684,11 @@
                         Name="boneTreeView"
                         Grid.Row="2"
                         Margin="0,5"
-                        ItemsSource="{Binding CurrentProject.MainSkeleton.RootBones}">
+                        ItemsSource="{Binding CurrentProject.MainSkeleton.RootBones}"
+                        Tapped="OnBonePointerPressed">
                         <TreeView.ItemTemplate>
                             <TreeDataTemplate ItemsSource="{Binding Children}">
-                                <StackPanel DoubleTapped="OnBonePointerPressed">
+                                <StackPanel>
                                     <TextBlock Text="{Binding Name, Mode=TwoWay}" />
                                 </StackPanel>
                             </TreeDataTemplate>
