@@ -310,6 +310,17 @@ public partial class MainWindow : SukiWindow
                             viewModel.RegenerateProject();
                         }
                     }
+
+                    if (tabControl.SelectedIndex == 0)
+                    {
+                        viewModel.IsAnimMode = true;
+                    }
+                    else
+                    {
+                        viewModel.IsAnimMode = false;
+                    }
+
+                    Console.WriteLine(viewModel.IsAnimMode);
                 }
             }
         }

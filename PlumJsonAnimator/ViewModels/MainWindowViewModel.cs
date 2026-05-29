@@ -177,6 +177,20 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
+    private bool _isAnimMode = true;
+    public bool IsAnimMode
+    {
+        set
+        {
+            if (_isAnimMode != value)
+            {
+                _isAnimMode = value;
+                OnPropertyChanged(nameof(IsAnimMode));
+            }
+        }
+        get => _isAnimMode;
+    }
+
     public string IsTransformModeActive => TransformMode;
 
     public Bone? CurrentBone

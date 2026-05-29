@@ -109,7 +109,10 @@
                     Margin="5"
                     HorizontalScrollBarVisibility="Auto"
                     VerticalScrollBarVisibility="Auto">
-                    <Grid ColumnDefinitions="*,Auto,Auto" RowDefinitions="Auto,Auto,Auto">
+                    <Grid
+                        ColumnDefinitions="*,Auto,Auto"
+                        IsEnabled="{Binding IsAnimMode}"
+                        RowDefinitions="Auto,Auto,Auto">
                         <TextBlock
                             Grid.Row="0"
                             Grid.ColumnSpan="3"
@@ -174,7 +177,10 @@
                     HorizontalAlignment="Stretch"
                     HorizontalScrollBarVisibility="Auto"
                     VerticalScrollBarVisibility="Auto">
-                    <Grid ColumnDefinitions="*,Auto,Auto" RowDefinitions="Auto,Auto,Auto">
+                    <Grid
+                        ColumnDefinitions="*,Auto,Auto"
+                        IsEnabled="{Binding IsAnimMode}"
+                        RowDefinitions="Auto,Auto,Auto">
                         <TextBlock
                             Grid.Row="0"
                             Grid.ColumnSpan="3"
@@ -242,7 +248,10 @@
 
                     <TextBlock Grid.Row="0" Text="{DynamicResource resources}" />
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <StackPanel
+                        Grid.Row="1"
+                        IsEnabled="{Binding IsAnimMode}"
+                        Orientation="Horizontal">
                         <Button
                             Width="32"
                             Height="32"
@@ -637,7 +646,10 @@
 
                     <TextBlock Grid.Row="0" Text="{DynamicResource skeleton}" />
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <StackPanel
+                        Grid.Row="1"
+                        IsEnabled="{Binding IsAnimMode}"
+                        Orientation="Horizontal">
                         <Button
                             Width="32"
                             Height="32"
@@ -689,7 +701,7 @@
                     ResizeDirection="Rows" />
                 <DockPanel Grid.Row="2">
                     <ScrollViewer Margin="5" VerticalScrollBarVisibility="Auto">
-                        <StackPanel>
+                        <StackPanel IsEnabled="{Binding IsAnimMode}">
                             <TextBlock Text="{DynamicResource info}" />
                             <StackPanel Orientation="Horizontal">
                                 <Button
