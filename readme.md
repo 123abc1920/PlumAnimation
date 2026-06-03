@@ -1,16 +1,16 @@
-Презентация проекта pdf: [Презентация.pdf](https://github.com/123abc1920/PlumAnimation/blob/unpublicBr/documents/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.pdf)
+Презентация проекта pdf: [Презентация.pdf](https://github.com/123abc1920/PlumAnimation/blob/main/documents/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.pdf)
 
-Презентация проекта pptx: [Презентация.pptx](https://github.com/123abc1920/PlumAnimation/blob/unpublicBr/documents/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.pptx)
+Презентация проекта pptx: [Презентация.pptx](https://github.com/123abc1920/PlumAnimation/blob/main/documents/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.pptx)
 
-Курсовая работа pdf: [НИР - Курсовая пдф.pdf](https://github.com/123abc1920/PlumAnimation/blob/unpublicBr/documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F.pdf)
+Курсовая работа pdf: [НИР - Курсовая пдф.pdf](https://github.com/123abc1920/PlumAnimation/blob/main/documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F.pdf)
 
-Курсовая работа docx: [НИР - Курсовая.docx](https://github.com/123abc1920/PlumAnimation/blob/unpublicBr/documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F.docx)
+Курсовая работа docx: [НИР - Курсовая.docx](https://github.com/123abc1920/PlumAnimation/blob/main/documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F.docx)
 
-Курсовая работа odt (__Если .docx не работает__): [НИР - Курсовая.odt](https://github.com/123abc1920/PlumAnimation/blob/unpublicBr/documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F.odt)
+Курсовая работа odt (__Если .docx не работает__): [НИР - Курсовая.odt](https://github.com/123abc1920/PlumAnimation/blob/main/documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F.odt)
 
 Видео работы приложения:
 
-*ссылка*
+https://disk.yandex.ru/i/juKYM8zCXp8AHQ
 
 # PlumJsonAnimator
 
