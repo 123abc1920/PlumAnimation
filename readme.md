@@ -12,6 +12,10 @@
 
 https://disk.yandex.ru/i/juKYM8zCXp8AHQ
 
+Версии приложения (Windows, wine вряд ли):
+
+https://github.com/123abc1920/PlumAnimation/releases
+
 # PlumJsonAnimator
 
 > Программа для создания и редактирования скелетных анимаций.
