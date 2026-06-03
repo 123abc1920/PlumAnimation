@@ -1,37 +1,104 @@
-# **PlumJsonAnimator**
+Презентация проекта pdf: [Презентация.pdf](https://github.com/123abc1920/PlumAnimation/blob/main/documents/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.pdf)
 
-<div align="center">
-    <div>
-        <img src="https://github.com/123abc1920/PlumJsonAnimator/raw/main/PlumJsonAnimator/Assets/logo.png" width="10%">
-    </div>
-    <div style="margin-top: 1%;">
-        <img src="https://img.shields.io/badge/version-0.1.0.alpha.1-yellow" alt="Build Status">
-        <img src="https://img.shields.io/github/downloads/123abc1920/PlumJsonAnimator/total" alt="Downloads">
-        <img src="https://img.shields.io/badge/platform-windows-green" alt="Platform">
-        <a href="https://github.com/123abc1920/PlumJsonAnimator?tab=MIT-1-ov-file"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-    </div>
-</div>
-<br>
+Презентация проекта pptx: [Презентация.pptx](https://github.com/123abc1920/PlumAnimation/blob/main/documents/%D0%9F%D1%80%D0%B5%D0%B7%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F.pptx)
 
-_Copyright (C) 2025-2026 123abc1920_
+Курсовая работа pdf: [НИР - Курсовая пдф.pdf](https://github.com/123abc1920/PlumAnimation/blob/main/documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F.pdf)
 
-A program for creating skeletal animations. Free and open-source.
+Курсовая работа docx: [НИР - Курсовая.docx](https://github.com/123abc1920/PlumAnimation/blob/main/documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F.docx)
 
-The app allows you to create animations in a graphical interface, then export or re-import them. It offers the ability to edit JSON files and export animations as images and videos. It also features the ability to switch themes and languages.
+Курсовая работа odt (__Если .docx не работает__): [НИР - Курсовая.odt](https://github.com/123abc1920/PlumAnimation/blob/main/documents/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F.odt)
 
-**Full support for English and Russian languages.**
+Видео работы приложения:
 
-For now, only for Windows.
+https://disk.yandex.ru/i/juKYM8zCXp8AHQ
 
-## Documentation
+# PlumJsonAnimator
 
-- [Introduction](https://123abc1920.github.io/PlumJsonAnimator/docs/introduction.html)
-- [Getting Started](https://123abc1920.github.io/PlumJsonAnimator/docs/getting-started.html)
-- [API](https://123abc1920.github.io/PlumJsonAnimator/api/PlumJsonAnimator.Common.Constants.html)
+> Программа для создания и редактирования скелетных анимаций.
 
-## License and Copyright
+## Оглавление
 
-- **PlumJsonAnimator Code License** — [MIT License](https://github.com/123abc1920/PlumJsonAnimator?tab=MIT-1-ov-file)
-- **Third-Party Library Notices** — [ThirdPartyNotices](https://github.com/123abc1920/PlumJsonAnimator/raw/main/NOTICE.txt)
+- [О проекте](#о-проекте)
+- [Цель и задачи](#цель-и-задачи)
+- [Технологии](#технологии)
+- [Функциональные возможности](#функциональные-возможности)
+- [Структура проекта](#структура-проекта)
+- [Результаты](#результаты)
 
-This project uses third-party components. For a full list of licenses and notices, see the [NOTICE](https://github.com/123abc1920/PlumJsonAnimator/raw/main/NOTICE.txt) file.
+---
+
+## О проекте
+
+**PlumJsonAnimator** — это приложение для создания скелетных анимаций на основе формата SpineJson.
+
+---
+
+## Цель и задачи
+
+**Цель:** разработать инструмент для наглядной анимации объектов.
+
+**Задачи, решённые в ходе работы:**
+
+1. Проанализировать существующие программы для скелетных анимаций
+2. Спроектировать архитектуру приложения
+3. Создать пользовательский интерфейс с выводом анимации на экран и ее редактирование в окне
+4. Проигрывать анимации внутри программы
+5. Реализовать экспорт и импорт анимаций в файлы
+
+---
+
+## Основные технологии
+
+| Технология                               | Назначение                               |
+| ---------------------------------------- | ---------------------------------------- |
+| AvaloniaUI                               | UI                                       |
+| C#                                       | Логика приложения                        |
+| SukiUI                                   | Библиотека интерфейса                    |
+| SixLabors.ImageSharp                     | Для конвертации в виде изображений/видео |
+| Newtonsoft.Json                          | Для работы с Json                        |
+| Microsoft.Extensions.DependencyInjection | Инъекция зависимостей                    |
+
+---
+
+## Функциональные возможности
+
+- Редактирование анимации в окне приложения
+- Сохранение анимации
+- Проигрывание анимации
+- Экспорт и импорт анимаций в JSON файл или в виде картинок
+- Смена языков
+- Смена тем приложения
+
+---
+
+## Структура проекта
+
+Используется MVVM паттерн, DI. Models содержит все модели проекта, Service -- все сервисы, ViewModels -- view models. Common содержит общие модели и модули.
+
+---
+
+## Результаты
+
+Было получено приложение, которое позволяет создавать анимацию в графическом интерфейсе, затем экспортировать ее или импортировать снова. Предоставляет возможность редактировать JSON файл, экспортировать анимацию в виде изображений и видео. Также имеет возможность переключать темы и языки.
+
+---
+
+## Скриншоты интерфейса:
+
+![Темная тема, английский язык](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/darkimg.png)
+![Светлая тема, русский язык](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/whiteimg.png)
+![Иерархия костей](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/bones.png)
+![Вывод json](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/json.png)
+![Слоты](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/slots.png)
+![Настройки](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/settings.png)
+![Настройки](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/settings2.png)
+![Скины и анимации](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/skinsanims.png)
+![Временная шкала](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/timeline.png)
+![Уведомление](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/toast.png)
+![Ресурсы](https://github.com/123abc1920/PlumAnimation/blob/main/ReadmeImgs/res.png)
+
+---
+
+## Запись работы:
+
+https://disk.yandex.ru/i/juKYM8zCXp8AHQ
