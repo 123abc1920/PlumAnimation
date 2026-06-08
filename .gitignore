@@ -62,6 +62,7 @@ OpenCover/
 *.pdb
 *.dll
 *.exe
+*.lscache
 
 # Файлы Rider
 .idea/
