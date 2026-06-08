@@ -304,10 +304,15 @@ Views/
  System.Xml.XPath.XDocument.dll
  WindowsBase.dll
 <NUGET>/
+<<<<<<< Updated upstream
  avalonia.controls.colorpicker/11.3.12/lib/net8.0/Avalonia.Controls.ColorPicker.dll
  avalonia.controls.datagrid/11.3.4/lib/net8.0/Avalonia.Controls.DataGrid.dll
  avalonia.desktop/11.3.12/lib/net8.0/Avalonia.Desktop.dll
  avalonia.diagnostics/11.3.12/lib/net8.0/Avalonia.Diagnostics.dll
+=======
+ avalonia.controls.datagrid/11.3.4/lib/net8.0/Avalonia.Controls.DataGrid.dll
+ avalonia.desktop/11.3.12/lib/net8.0/Avalonia.Desktop.dll
+>>>>>>> Stashed changes
  avalonia.fonts.inter/11.3.12/lib/net8.0/Avalonia.Fonts.Inter.dll
  avalonia.freedesktop/11.3.12/lib/net8.0/Avalonia.FreeDesktop.dll
  avalonia.native/11.3.12/lib/net8.0/Avalonia.Native.dll
@@ -378,6 +383,12 @@ Views/
 <NUGET>/communitytoolkit.mvvm/8.2.1/analyzers/dotnet/roslyn4.3/cs/
  CommunityToolkit.Mvvm.CodeFixers.dll
  CommunityToolkit.Mvvm.SourceGenerators.dll
+<<<<<<< Updated upstream
+=======
+<NUGET>/microsoft.net.illink.tasks/9.0.9/analyzers/dotnet/cs/
+ ILLink.CodeFixProvider.dll
+ ILLink.RoslynAnalyzer.dll
+>>>>>>> Stashed changes
 
 [analyzerConfigFiles]
 <DOTNET>/sdk/9.0.305/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_9_default.globalconfig
