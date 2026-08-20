@@ -4,7 +4,6 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using Avalonia.Media;
 using Avalonia.Svg.Skia;
 using Microsoft.Extensions.DependencyInjection;
 using PlumJsonAnimator.Common.Constants;
@@ -12,8 +11,6 @@ using PlumJsonAnimator.Common.Dialogs;
 using PlumJsonAnimator.Services;
 using PlumJsonAnimator.ViewModels;
 using PlumJsonAnimator.Views;
-using SukiUI;
-using SukiUI.Models;
 
 namespace PlumJsonAnimator;
 

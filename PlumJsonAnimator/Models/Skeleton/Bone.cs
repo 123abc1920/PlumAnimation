@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
+using Avalonia.Media;
 using Newtonsoft.Json;
 using PlumJsonAnimator.Common.Constants;
 using PlumJsonAnimator.Models.Interfaces;
@@ -228,7 +228,7 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
 
                 if (this.Parent != null)
                 {
-                    double parentAngleRad = this.Parent.A * Math.PI / 180;
+                    double parentAngleRad = this.Parent.GlobalA * Math.PI / 180;
                     double rotatedX =
                         localX * Math.Cos(parentAngleRad) - localY * Math.Sin(parentAngleRad);
 
@@ -248,7 +248,8 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
 
                 if (this.Parent != null)
                 {
-                    double parentAngleRad = this.Parent.A * Math.PI / 180;
+                    double parentAngleRad = this.Parent.GlobalA * Math.PI / 180;
+
                     double rotatedY =
                         localX * Math.Sin(parentAngleRad) + localY * Math.Cos(parentAngleRad);
 
@@ -265,11 +266,13 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             {
                 double angle = this.A;
                 Bone? current = this.Parent;
+
                 while (current != null)
                 {
                     angle += current.A;
                     current = current.Parent;
                 }
+
                 return angle;
             }
         }
@@ -374,15 +377,6 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             this._localizationService = localizationService;
         }
 
-        private Point SetupEndXEndY()
-        {
-            double angleRad = this.A * Math.PI / 180;
-            var endX = this.GlobalX + lengthX * Math.Cos(angleRad);
-            var endY = this.GlobalY + lengthX * Math.Sin(angleRad);
-
-            return new Point(endX, endY);
-        }
-
         public void AddChildren(Bone bone)
         {
             this.Children.Add(bone);
@@ -407,15 +401,37 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
                 double dx = x - this.Parent.GlobalX;
                 double dy = y - this.Parent.GlobalY;
 
-                double parentAngleRad = -this.Parent.A * Math.PI / 180;
+                double parentAngleRad = -this.Parent.GlobalA * Math.PI / 180;
                 double localX = dx * Math.Cos(parentAngleRad) - dy * Math.Sin(parentAngleRad);
                 double localY = dx * Math.Sin(parentAngleRad) + dy * Math.Cos(parentAngleRad);
+
+                if (this._globalState.setBasePos)
+                {
+                    this.BaseX = localX;
+                    this.BaseY = localY;
+                }
+                else
+                {
+                    this.AnimX = localX - this.BaseX;
+                    this.AnimY = localY - this.BaseY;
+                }
 
                 this.X = localX;
                 this.Y = localY;
             }
             else
             {
+                if (this._globalState.setBasePos)
+                {
+                    this.BaseX = x;
+                    this.BaseY = y;
+                }
+                else
+                {
+                    this.AnimX = x - this.BaseX;
+                    this.AnimY = y - this.BaseY;
+                }
+
                 this.X = x;
                 this.Y = y;
             }
@@ -436,14 +452,7 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
 
             _isRotating = true;
 
-            double oldA = this.A;
-            double deltaAngle = a - oldA;
             this.A = a;
-
-            foreach (Bone child in this.Children)
-            {
-                child.Rotate(child.A + deltaAngle);
-            }
 
             _isRotating = false;
         }
@@ -462,14 +471,33 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         /// Draws bone
         /// </summary>
         /// <param name="canvas">Target canvas</param>
-        public void DrawBone(Canvas canvas)
+        public void DrawBone(
+            Canvas canvas,
+            double m11 = 1,
+            double m12 = 0,
+            double m21 = 0,
+            double m22 = 1,
+            double parentX = 0,
+            double parentY = 0
+        )
         {
-            Point start = new Point(
-                canvas.Width / 2 + this.GlobalX,
-                canvas.Height / 2 + this.GlobalY
-            );
-            var endPoints = SetupEndXEndY();
-            Point end = new Point(canvas.Width / 2 + endPoints.X, canvas.Height / 2 + endPoints.Y);
+            double angleRad = this.A * Math.PI / 180;
+            double c = Math.Cos(angleRad);
+            double s = Math.Sin(angleRad);
+
+            double g11 = m11 * c + m21 * s;
+            double g12 = m12 * c + m22 * s;
+            double g21 = m11 * (-s) + m21 * c;
+            double g22 = m12 * (-s) + m22 * c;
+
+            double globalX = parentX + (this.X * m11 + this.Y * m21);
+            double globalY = parentY + (this.X * m12 + this.Y * m22);
+
+            double endX = globalX + (this.lengthX * g11);
+            double endY = globalY + (this.lengthX * g12);
+
+            Point start = new Point(canvas.Width / 2 + globalX, canvas.Height / 2 + globalY);
+            Point end = new Point(canvas.Width / 2 + endX, canvas.Height / 2 + endY);
 
             var line = new Line
             {
@@ -491,6 +519,11 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
 
             canvas.Children.Add(line);
             canvas.Children.Add(joint);
+
+            foreach (var childBone in this.Children)
+            {
+                childBone.DrawBone(canvas, g11, g12, g21, g22, globalX, globalY);
+            }
         }
 
         /// <summary>
