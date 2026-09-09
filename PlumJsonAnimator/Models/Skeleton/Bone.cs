@@ -125,14 +125,7 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         public double ShearX
         {
             get => _shearX;
-            set
-            {
-                if (Math.Abs(_shearX - value) > double.Epsilon)
-                {
-                    _shearX = value;
-                    this.RaiseAndSetIfChanged(ref _shearX, value);
-                }
-            }
+            set { this.RaiseAndSetIfChanged(ref _shearX, value); }
         }
 
         private double _shearY = 0;
@@ -141,11 +134,7 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             get => _shearY;
             set
             {
-                if (Math.Abs(_shearY - value) > double.Epsilon)
-                {
-                    _shearY = value;
-                    this.RaiseAndSetIfChanged(ref _shearY, value);
-                }
+                this.RaiseAndSetIfChanged(ref _shearY, value);
             }
         }
 
@@ -158,8 +147,6 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
 
                 if (this.Parent != null)
                 {
-                    // Умножаем локальный вектор (localX, localY) на мировую матрицу родителя:
-                    // X_global = Parent.GlobalX + (localX * Parent.G11 + localY * Parent.G21)
                     return this.Parent.GlobalX
                         + (localX * this.Parent.G11 + localY * this.Parent.G21);
                 }
@@ -178,7 +165,6 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
 
                 if (this.Parent != null)
                 {
-                    // Y_global = Parent.GlobalY + (localX * Parent.G12 + localY * Parent.G22)
                     return this.Parent.GlobalY
                         + (localX * this.Parent.G12 + localY * this.Parent.G22);
                 }
@@ -439,44 +425,34 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             double parentY = 0
         )
         {
-            // 1. Переводим углы в радианы
             double rotationRad = this.A * Math.PI / 180;
             double shearXRad = this.ShearX * Math.PI / 180;
             double shearYRad = this.ShearY * Math.PI / 180;
 
-            // 2. В Spine оси X и Y независимы:
-            // Ось X повернута на (rotation + shearX)
-            // Ось Y повернута на (rotation + 90 + shearY)
             double angleX = rotationRad + shearXRad;
             double angleY = rotationRad + Math.PI / 2 + shearYRad;
 
-            // 3. Направления осей (единичные векторы)
             double cosX = Math.Cos(angleX) * this.ScaleX;
             double sinX = Math.Sin(angleX) * this.ScaleX;
             double cosY = Math.Cos(angleY) * this.ScaleY;
             double sinY = Math.Sin(angleY) * this.ScaleY;
 
-            // 4. Локальная матрица
             double local11 = cosX;
             double local12 = sinX;
             double local21 = cosY;
             double local22 = sinY;
 
-            // 5. Умножаем на родительскую матрицу
             double g11 = m11 * local11 + m21 * local12;
             double g12 = m12 * local11 + m22 * local12;
             double g21 = m11 * local21 + m21 * local22;
             double g22 = m12 * local21 + m22 * local22;
 
-            // 6. Мировые координаты
             double globalX = parentX + (this.X * m11 + this.Y * m21);
             double globalY = parentY + (this.X * m12 + this.Y * m22);
 
-            // 7. Конец кости
             double endX = globalX + (this.LengthX * g11);
             double endY = globalY + (this.LengthX * g12);
 
-            // Сохраняем матрицу
             this.G11 = g11;
             this.G12 = g12;
             this.G21 = g21;
@@ -484,7 +460,6 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             this.GlobalX = globalX;
             this.GlobalY = globalY;
 
-            // Отрисовка
             Point start = new Point(canvas.Width / 2 + globalX, canvas.Height / 2 + globalY);
             Point end = new Point(canvas.Width / 2 + endX, canvas.Height / 2 + endY);
 
@@ -509,7 +484,6 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             canvas.Children.Add(line);
             canvas.Children.Add(joint);
 
-            // Рекурсивно отрисовываем дочерние кости
             foreach (var childBone in this.Children)
             {
                 childBone.DrawBone(canvas, g11, g12, g21, g22, globalX, globalY);

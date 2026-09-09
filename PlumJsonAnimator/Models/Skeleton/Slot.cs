@@ -78,7 +78,6 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
                 LengthX = size["width"] ?? LengthX;
                 LengthY = size["height"] ?? LengthY;
 
-                // Уведомляем об изменениях
                 this.RaisePropertyChanged(nameof(X));
                 this.RaisePropertyChanged(nameof(Y));
                 this.RaisePropertyChanged(nameof(A));
