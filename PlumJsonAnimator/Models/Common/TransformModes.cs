@@ -78,38 +78,6 @@ namespace PlumJsonAnimator.Models.Common
         }
     }
 
-    class ScaleMode : Mode
-    {
-        private double? startX = null;
-        private double? startY = null;
-
-        public ScaleMode(GlobalState globalState)
-            : base(globalState)
-        {
-            type = TransformModesTypes.SCALE;
-            name = "scale";
-        }
-
-        public override void ClearMode()
-        {
-            startX = null;
-            startY = null;
-        }
-
-        public override void Transform(Bone bone, double x, double y)
-        {
-            if (startX == null || startY == null)
-            {
-                startX = x;
-                startY = y;
-                return;
-            }
-            startX = x;
-            startY = y;
-            bone.Scale(x, y);
-        }
-    }
-
     class RotateMode : Mode
     {
         private class Point
@@ -151,6 +119,129 @@ namespace PlumJsonAnimator.Models.Common
                 if (animation != null && !animation.IsRun && bone.IsBone == true)
                 {
                     animation.RotateBone(bone, bone.A);
+                }
+            }
+        }
+    }
+
+    class ScaleMode : Mode
+    {
+        private double? startX = null;
+        private double? startY = null;
+
+        public ScaleMode(GlobalState globalState)
+            : base(globalState)
+        {
+            type = TransformModesTypes.SCALE;
+            name = "scale";
+        }
+
+        public override void ClearMode()
+        {
+            startX = null;
+            startY = null;
+        }
+
+        public override void Transform(Bone bone, double x, double y)
+        {
+            if (startX == null || startY == null)
+            {
+                startX = x;
+                startY = y;
+                return;
+            }
+            startX = x;
+            startY = y;
+            bone.Scale(x, y);
+        }
+    }
+
+    class ShearMode : Mode
+    {
+        private double? startX = null;
+        private double? startY = null;
+        private double startShearX = 0;
+        private double startShearY = 0;
+        private bool isHorizontalLocked = false;
+        private bool isVerticalLocked = false;
+
+        private const double Sensitivity = 0.5;
+        private const double LockThreshold = 5.0; // Порог для определения направления
+
+        public ShearMode(GlobalState globalState)
+            : base(globalState)
+        {
+            type = TransformModesTypes.SHEAR;
+            name = "shear";
+        }
+
+        public override void ClearMode()
+        {
+            startX = null;
+            startY = null;
+            isHorizontalLocked = false;
+            isVerticalLocked = false;
+        }
+
+        public override void Transform(Bone bone, double x, double y)
+        {
+            // Инициализация начальных значений при первом вызове
+            if (startX == null || startY == null)
+            {
+                startX = x;
+                startY = y;
+                startShearX = bone.ShearX;
+                startShearY = bone.ShearY;
+                return;
+            }
+
+            // Вычисляем дельту от начальной позиции
+            double deltaX = x - startX.Value;
+            double deltaY = y - startY.Value;
+
+            // Определяем направление движения при первом значительном сдвиге
+            if (!isHorizontalLocked && !isVerticalLocked)
+            {
+                if (Math.Abs(deltaX) > LockThreshold)
+                {
+                    isHorizontalLocked = true;
+                }
+                else if (Math.Abs(deltaY) > LockThreshold)
+                {
+                    isVerticalLocked = true;
+                }
+            }
+
+            double newShearX = bone.ShearX;
+            double newShearY = bone.ShearY;
+
+            // Применяем только заблокированную ось
+            if (isHorizontalLocked)
+            {
+                // Движение по X -> меняем только ShearY
+                newShearY = startShearY + deltaX * Sensitivity;
+            }
+            else if (isVerticalLocked)
+            {
+                // Движение по Y -> меняем только ShearX
+                newShearX = startShearX + deltaY * Sensitivity;
+            }
+
+            // Ограничиваем значения
+            newShearX = Math.Clamp(newShearX, -89.0, 89.0);
+            newShearY = Math.Clamp(newShearY, -89.0, 89.0);
+
+            // Применяем новые значения
+            bone.ShearX = newShearX;
+            bone.ShearY = newShearY;
+
+            // Обновляем анимацию если нужно
+            if (this.globalState.setBasePos == false)
+            {
+                var animation = this.globalState.CurrentProject?.GetCurrentAnimation();
+                if (animation != null && !animation.IsRun && bone.IsBone == true)
+                {
+                    animation.ShearBone(bone, bone.ShearX, bone.ShearY);
                 }
             }
         }

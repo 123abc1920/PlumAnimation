@@ -25,40 +25,39 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             get { return false; }
         }
 
-        // Приватные поля для локальных значений
-        private double _localX = 0;
-        private double _localY = 0;
-        private double _localA = 0;
+        public double LocalX = 0;
+        public double LocalY = 0;
+        public double LocalA = 0;
 
         [Reactive]
         public Attachment? CurrentAttachment { get; set; }
 
         public override double X
         {
-            get => BoundedBone != null ? BoundedBone.X + _localX : _localX;
+            get => BoundedBone != null ? BoundedBone.X + LocalX : LocalX;
             set
             {
-                _localX = BoundedBone != null ? value - BoundedBone.X : value;
+                LocalX = BoundedBone != null ? value - BoundedBone.X : value;
                 this.RaisePropertyChanged(nameof(X));
             }
         }
 
         public override double Y
         {
-            get => BoundedBone != null ? BoundedBone.Y + _localY : _localY;
+            get => BoundedBone != null ? BoundedBone.Y + LocalY : LocalY;
             set
             {
-                _localY = BoundedBone != null ? value - BoundedBone.Y : value;
+                LocalY = BoundedBone != null ? value - BoundedBone.Y : value;
                 this.RaisePropertyChanged(nameof(Y));
             }
         }
 
         public override double A
         {
-            get => BoundedBone != null ? BoundedBone.A + _localA : _localA;
+            get => BoundedBone != null ? BoundedBone.A + LocalA : LocalA;
             set
             {
-                _localA = BoundedBone != null ? value - BoundedBone.A : value;
+                LocalA = BoundedBone != null ? value - BoundedBone.A : value;
                 this.RaisePropertyChanged(nameof(A));
             }
         }
@@ -71,9 +70,9 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             CurrentAttachment = _globalState.CurrentProject!.CurrentSkin.GetAttachment(this);
             if (CurrentAttachment != null && BoundedBone != null)
             {
-                _localX = CurrentAttachment.x;
-                _localY = CurrentAttachment.y;
-                _localA = CurrentAttachment.a;
+                LocalX = CurrentAttachment.x;
+                LocalY = CurrentAttachment.y;
+                LocalA = CurrentAttachment.a;
 
                 var size = CurrentAttachment.GetSize();
                 LengthX = size["width"] ?? LengthX;
@@ -173,12 +172,12 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         {
             get
             {
-                double globalX = _localX;
+                double globalX = LocalX;
 
                 if (BoundedBone != null)
                 {
                     double rad = BoundedBone.GlobalA * Math.PI / 180;
-                    double rotatedX = _localX * Math.Cos(rad) - _localY * Math.Sin(rad);
+                    double rotatedX = LocalX * Math.Cos(rad) - LocalY * Math.Sin(rad);
                     globalX = BoundedBone.GlobalX + rotatedX;
                 }
 
@@ -190,12 +189,12 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         {
             get
             {
-                double globalY = _localY;
+                double globalY = LocalY;
 
                 if (BoundedBone != null)
                 {
                     double rad = BoundedBone.GlobalA * Math.PI / 180;
-                    double rotatedY = _localX * Math.Sin(rad) + _localY * Math.Cos(rad);
+                    double rotatedY = LocalX * Math.Sin(rad) + LocalY * Math.Cos(rad);
                     globalY = BoundedBone.GlobalY + rotatedY;
                 }
 
@@ -207,11 +206,11 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         {
             get
             {
-                double globalAngle = _localA;
+                double globalAngle = LocalA;
 
                 if (BoundedBone != null)
                 {
-                    globalAngle = BoundedBone.GlobalA + _localA;
+                    globalAngle = BoundedBone.GlobalA + LocalA;
                 }
 
                 return globalAngle;
@@ -294,15 +293,15 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
                 double dx = x - BoundedBone.GlobalX;
                 double dy = y - BoundedBone.GlobalY;
                 double rad = -BoundedBone.GlobalA * Math.PI / 180;
-                _localX = dx * Math.Cos(rad) - dy * Math.Sin(rad);
-                _localY = dx * Math.Sin(rad) + dy * Math.Cos(rad);
+                LocalX = dx * Math.Cos(rad) - dy * Math.Sin(rad);
+                LocalY = dx * Math.Sin(rad) + dy * Math.Cos(rad);
             }
             else
             {
-                _localX = x;
-                _localY = y;
+                LocalX = x;
+                LocalY = y;
             }
-            CurrentAttachment?.SetPos(_localX, _localY, _localA);
+            CurrentAttachment?.SetPos(LocalX, LocalY, LocalA);
         }
 
         /// <summary>
@@ -329,13 +328,13 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         {
             if (BoundedBone != null)
             {
-                _localA = a - BoundedBone.A;
+                LocalA = a - BoundedBone.A;
             }
             else
             {
-                _localA = a;
+                LocalA = a;
             }
-            CurrentAttachment?.SetPos(_localX, _localY, _localA);
+            CurrentAttachment?.SetPos(LocalX, LocalY, LocalA);
         }
 
         public void DrawSlotSelection(Canvas canvas)

@@ -156,6 +156,10 @@ public partial class MainWindowViewModel : ViewModelBase
                 {
                     CurrentProject!.currentMode = new ScaleMode(this.globalState);
                 }
+                else if (value == "shear")
+                {
+                    CurrentProject!.currentMode = new ShearMode(this.globalState);
+                }
                 else
                 {
                     CurrentProject!.currentMode = new NoMode(this.globalState);

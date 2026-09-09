@@ -121,6 +121,34 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             }
         }
 
+        private double _shearX = 0;
+        public double ShearX
+        {
+            get => _shearX;
+            set
+            {
+                if (Math.Abs(_shearX - value) > double.Epsilon)
+                {
+                    _shearX = value;
+                    this.RaiseAndSetIfChanged(ref _shearX, value);
+                }
+            }
+        }
+
+        private double _shearY = 0;
+        public double ShearY
+        {
+            get => _shearY;
+            set
+            {
+                if (Math.Abs(_shearY - value) > double.Epsilon)
+                {
+                    _shearY = value;
+                    this.RaiseAndSetIfChanged(ref _shearY, value);
+                }
+            }
+        }
+
         public double GlobalX
         {
             get
@@ -130,36 +158,34 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
 
                 if (this.Parent != null)
                 {
-                    double parentAngleRad = this.Parent.GlobalA * Math.PI / 180;
-                    double rotatedX =
-                        localX * Math.Cos(parentAngleRad) - localY * Math.Sin(parentAngleRad);
-
-                    return this.Parent.GlobalX + rotatedX;
+                    // Умножаем локальный вектор (localX, localY) на мировую матрицу родителя:
+                    // X_global = Parent.GlobalX + (localX * Parent.G11 + localY * Parent.G21)
+                    return this.Parent.GlobalX
+                        + (localX * this.Parent.G11 + localY * this.Parent.G21);
                 }
 
                 return localX;
             }
+            private set { }
         }
 
         public double GlobalY
         {
             get
             {
-                double localX = this.BaseX + (this._globalState.setBasePos ? 0 : this.AnimX);
                 double localY = this.BaseY + (this._globalState.setBasePos ? 0 : this.AnimY);
+                double localX = this.BaseX + (this._globalState.setBasePos ? 0 : this.AnimX);
 
                 if (this.Parent != null)
                 {
-                    double parentAngleRad = this.Parent.GlobalA * Math.PI / 180;
-
-                    double rotatedY =
-                        localX * Math.Sin(parentAngleRad) + localY * Math.Cos(parentAngleRad);
-
-                    return this.Parent.GlobalY + rotatedY;
+                    // Y_global = Parent.GlobalY + (localX * Parent.G12 + localY * Parent.G22)
+                    return this.Parent.GlobalY
+                        + (localX * this.Parent.G12 + localY * this.Parent.G22);
                 }
 
                 return localY;
             }
+            private set { }
         }
 
         public virtual double GlobalA
@@ -227,6 +253,11 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             }
         }
         public virtual double LengthY { get; set; } = 0;
+
+        public double G11 { get; private set; } = 1;
+        public double G12 { get; private set; } = 0;
+        public double G21 { get; private set; } = 0;
+        public double G22 { get; private set; } = 1;
 
         [Reactive]
         public SolidColorBrush BoneColor { get; set; } = new SolidColorBrush(Colors.Black);
@@ -386,10 +417,18 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             this.LengthX = Math.Sqrt((x - this.X) * (x - this.X) + (y - this.Y) * (y - this.Y));
         }
 
+        public double ScaleX { get; set; } = 1;
+        public double ScaleY { get; set; } = 1;
+
+        public virtual void Shear(double x, double y)
+        {
+            this.ShearX = x;
+            this.ShearY = y;
+        }
+
         /// <summary>
-        /// Draws bone
+        /// Draws bone with matrix logic matching Spine 2D
         /// </summary>
-        /// <param name="canvas">Target canvas</param>
         public void DrawBone(
             Canvas canvas,
             double m11 = 1,
@@ -400,21 +439,52 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             double parentY = 0
         )
         {
-            double angleRad = this.A * Math.PI / 180;
-            double c = Math.Cos(angleRad);
-            double s = Math.Sin(angleRad);
+            // 1. Переводим углы в радианы
+            double rotationRad = this.A * Math.PI / 180;
+            double shearXRad = this.ShearX * Math.PI / 180;
+            double shearYRad = this.ShearY * Math.PI / 180;
 
-            double g11 = m11 * c + m21 * s;
-            double g12 = m12 * c + m22 * s;
-            double g21 = m11 * (-s) + m21 * c;
-            double g22 = m12 * (-s) + m22 * c;
+            // 2. В Spine оси X и Y независимы:
+            // Ось X повернута на (rotation + shearX)
+            // Ось Y повернута на (rotation + 90 + shearY)
+            double angleX = rotationRad + shearXRad;
+            double angleY = rotationRad + Math.PI / 2 + shearYRad;
 
+            // 3. Направления осей (единичные векторы)
+            double cosX = Math.Cos(angleX) * this.ScaleX;
+            double sinX = Math.Sin(angleX) * this.ScaleX;
+            double cosY = Math.Cos(angleY) * this.ScaleY;
+            double sinY = Math.Sin(angleY) * this.ScaleY;
+
+            // 4. Локальная матрица
+            double local11 = cosX;
+            double local12 = sinX;
+            double local21 = cosY;
+            double local22 = sinY;
+
+            // 5. Умножаем на родительскую матрицу
+            double g11 = m11 * local11 + m21 * local12;
+            double g12 = m12 * local11 + m22 * local12;
+            double g21 = m11 * local21 + m21 * local22;
+            double g22 = m12 * local21 + m22 * local22;
+
+            // 6. Мировые координаты
             double globalX = parentX + (this.X * m11 + this.Y * m21);
             double globalY = parentY + (this.X * m12 + this.Y * m22);
 
+            // 7. Конец кости
             double endX = globalX + (this.LengthX * g11);
             double endY = globalY + (this.LengthX * g12);
 
+            // Сохраняем матрицу
+            this.G11 = g11;
+            this.G12 = g12;
+            this.G21 = g21;
+            this.G22 = g22;
+            this.GlobalX = globalX;
+            this.GlobalY = globalY;
+
+            // Отрисовка
             Point start = new Point(canvas.Width / 2 + globalX, canvas.Height / 2 + globalY);
             Point end = new Point(canvas.Width / 2 + endX, canvas.Height / 2 + endY);
 
@@ -439,6 +509,7 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             canvas.Children.Add(line);
             canvas.Children.Add(joint);
 
+            // Рекурсивно отрисовываем дочерние кости
             foreach (var childBone in this.Children)
             {
                 childBone.DrawBone(canvas, g11, g12, g21, g22, globalX, globalY);

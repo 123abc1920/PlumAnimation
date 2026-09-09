@@ -294,6 +294,15 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             }
         }
 
+        public void ShearBone(Bone b, double? shearX, double? shearY)
+        {
+            if (b != null && shearX != null && shearY != null)
+            {
+                AnimateBone(b);
+                BoneAnimationBinding[b].AddShearFrame(currentTime, (double)shearX, (double)shearY);
+            }
+        }
+
         /// <summary>
         /// Add bone translating into current animation
         /// </summary>

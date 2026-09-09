@@ -80,7 +80,7 @@ public class PlumApp
 
         var projectWorkspace = AppSettings.appSettings.Workspace;
         ProjectSettings projectSettings = new ProjectSettings(
-            Path.Combine(projectWorkspace, GlobalState.SETTINGS_FILE_NAME),
+            Path.Combine(projectWorkspace, GlobalState.SettingsFileName),
             AppSettings,
             GlobalState
         );

@@ -79,6 +79,18 @@ namespace PlumJsonAnimator.Models
             }
         }
 
+        public void AddShearFrame(double time, double shearX, double shearY)
+        {
+            if (_shearKeyframes.ContainsKey(time))
+            {
+                _shearKeyframes[time] = new Shear(this._globalState, time, shearX, shearY);
+            }
+            else
+            {
+                _shearKeyframes.Add(time, new Shear(this._globalState, time, shearX, shearY));
+            }
+        }
+
         /// <summary>
         /// Delete keyframe
         /// </summary>
@@ -178,6 +190,18 @@ namespace PlumJsonAnimator.Models
                 }
                 return _rotateKeyframes[time];
             }
+            else if (type == TransformModesTypes.SHEAR)
+            {
+                if (!_shearKeyframes.ContainsKey(time))
+                {
+                    return null;
+                }
+                return _shearKeyframes[time];
+            }
+            else if (type == TransformModesTypes.SCALE)
+            {
+                return null;
+            }
 
             return null;
         }
@@ -191,6 +215,14 @@ namespace PlumJsonAnimator.Models
             else if (type == TransformModesTypes.ROTATE)
             {
                 _rotateKeyframes[time] = keyframe;
+            }
+            else if (type == TransformModesTypes.SHEAR)
+            {
+                _shearKeyframes[time] = keyframe;
+            }
+            else if (type == TransformModesTypes.SCALE)
+            {
+                _scaleKeyframes[time] = keyframe;
             }
         }
 
@@ -207,6 +239,14 @@ namespace PlumJsonAnimator.Models
             else if (type == TransformModesTypes.ROTATE)
             {
                 _rotateKeyframes[time] = keyframeType;
+            }
+            else if (type == TransformModesTypes.SHEAR)
+            {
+                _shearKeyframes[time] = keyframeType;
+            }
+            else if (type == TransformModesTypes.SCALE)
+            {
+                _scaleKeyframes[time] = keyframeType;
             }
         }
 
