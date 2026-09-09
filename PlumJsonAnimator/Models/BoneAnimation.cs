@@ -401,6 +401,56 @@ namespace PlumJsonAnimator.Models
         }
 
         /// <summary>
+        /// Shears bone according current time
+        /// </summary>
+        /// <param name="b">Bone</param>
+        /// <param name="time">Current time</param>
+        private void ShearStep(Bone b, double time)
+        {
+            if (_shearKeyframes.Count == 0)
+                return;
+
+            double localX,
+                localY;
+
+            if (_shearKeyframes.Count == 1)
+            {
+                var onlyKeyframe = (Shear)_shearKeyframes.First().Value;
+                localX = (double)onlyKeyframe.x;
+                localY = (double)onlyKeyframe.y;
+            }
+            else
+            {
+                FindSegment(time, KeyFrameTypes.SHEAR);
+                double t = this._interpolation.findInterpolateParam(
+                    _shearEnd - _shearStart,
+                    time - _shearStart
+                );
+
+                if (
+                    this._shearKeyframes.ContainsKey(_shearEnd)
+                    && this._shearKeyframes.ContainsKey(_shearStart)
+                )
+                {
+                    localX = this._interpolation.linearInterpolation(
+                        ((Shear)_shearKeyframes[_shearStart]).x,
+                        ((Shear)_shearKeyframes[_shearEnd]).x,
+                        t
+                    );
+                    localY = this._interpolation.linearInterpolation(
+                        ((Shear)_shearKeyframes[_shearStart]).y,
+                        ((Shear)_shearKeyframes[_shearEnd]).y,
+                        t
+                    );
+                }
+                else
+                    return;
+            }
+
+            b.Shear(localX, localY);
+        }
+
+        /// <summary>
         /// Sets the bone to the desired state according current time
         /// </summary>
         /// <param name="b">Bone</param>
@@ -409,6 +459,7 @@ namespace PlumJsonAnimator.Models
         {
             TranslateStep(b, time);
             RotateStep(b, time);
+            ShearStep(b, time);
         }
 
         public BoneAnimationData GenerateJSONData()
