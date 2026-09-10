@@ -508,6 +508,8 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
                 X = this.BaseX,
                 Y = this.BaseY,
                 Rotation = this.BaseA,
+                ShearX = this.ShearX,
+                ShearY = this.ShearY,
             };
         }
 
