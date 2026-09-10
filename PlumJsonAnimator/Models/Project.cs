@@ -390,6 +390,8 @@ namespace PlumJsonAnimator.Models
                         b.BaseX = boneData.X;
                         b.BaseY = boneData.Y;
                         b.BaseA = boneData.Rotation;
+                        b.ShearX = boneData.ShearX;
+                        b.ShearY = boneData.ShearY;
                         b.Parent = this.MainSkeleton.GetBoneByName(boneData.Parent);
                     }
                     bones.Remove(b.Name);
@@ -406,6 +408,8 @@ namespace PlumJsonAnimator.Models
                 b.BaseX = bone.Value.X;
                 b.BaseY = bone.Value.Y;
                 b.BaseA = bone.Value.Rotation;
+                b.ShearX = bone.Value.ShearX;
+                b.ShearY = bone.Value.ShearY;
                 this.MainSkeleton.AddBone(b);
             }
 

@@ -132,10 +132,7 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         public double ShearY
         {
             get => _shearY;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _shearY, value);
-            }
+            set { this.RaiseAndSetIfChanged(ref _shearY, value); }
         }
 
         public double GlobalX
@@ -557,5 +554,11 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
 
         [JsonProperty("rotation", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public double Rotation { get; set; }
+
+        [JsonProperty("shearX", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public double ShearX { get; set; }
+
+        [JsonProperty("shearY", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public double ShearY { get; set; }
     }
 }
