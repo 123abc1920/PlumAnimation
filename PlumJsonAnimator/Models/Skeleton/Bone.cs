@@ -412,8 +412,48 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         /// <summary>
         /// Draws bone with matrix logic matching Spine 2D
         /// </summary>
-        public void DrawBone(
-            Canvas canvas,
+        public void DrawBone(Canvas canvas)
+        {
+            double endX = this.GlobalX + (this.LengthX * this.G11);
+            double endY = this.GlobalY + (this.LengthX * this.G12);
+
+            Point start = new Point(
+                canvas.Width / 2 + this.GlobalX,
+                canvas.Height / 2 + this.GlobalY
+            );
+            Point end = new Point(canvas.Width / 2 + endX, canvas.Height / 2 + endY);
+
+            var line = new Line
+            {
+                StartPoint = start,
+                EndPoint = end,
+                Stroke = this._globalState.GetLineBoneColor(this),
+                StrokeThickness = 3,
+            };
+
+            var joint = new Ellipse
+            {
+                Width = 8,
+                Height = 8,
+                Fill = this._globalState.GetDotBoneColor(this),
+            };
+
+            Canvas.SetLeft(joint, start.X - 4);
+            Canvas.SetTop(joint, start.Y - 4);
+
+            canvas.Children.Add(line);
+            canvas.Children.Add(joint);
+
+            foreach (var childBone in this.Children)
+            {
+                childBone.DrawBone(canvas);
+            }
+        }
+
+        /// <summary>
+        /// Computes G11..G22, GlobalX, GlobalY recursively without drawing.
+        /// </summary>
+        public void UpdateTransform(
             double m11 = 1,
             double m12 = 0,
             double m21 = 0,
@@ -447,9 +487,6 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             double globalX = parentX + (this.X * m11 + this.Y * m21);
             double globalY = parentY + (this.X * m12 + this.Y * m22);
 
-            double endX = globalX + (this.LengthX * g11);
-            double endY = globalY + (this.LengthX * g12);
-
             this.G11 = g11;
             this.G12 = g12;
             this.G21 = g21;
@@ -457,33 +494,9 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             this.GlobalX = globalX;
             this.GlobalY = globalY;
 
-            Point start = new Point(canvas.Width / 2 + globalX, canvas.Height / 2 + globalY);
-            Point end = new Point(canvas.Width / 2 + endX, canvas.Height / 2 + endY);
-
-            var line = new Line
-            {
-                StartPoint = start,
-                EndPoint = end,
-                Stroke = this._globalState.GetLineBoneColor(this),
-                StrokeThickness = 3,
-            };
-
-            var joint = new Ellipse
-            {
-                Width = 8,
-                Height = 8,
-                Fill = this._globalState.GetDotBoneColor(this),
-            };
-
-            Canvas.SetLeft(joint, start.X - 4);
-            Canvas.SetTop(joint, start.Y - 4);
-
-            canvas.Children.Add(line);
-            canvas.Children.Add(joint);
-
             foreach (var childBone in this.Children)
             {
-                childBone.DrawBone(canvas, g11, g12, g21, g22, globalX, globalY);
+                childBone.UpdateTransform(g11, g12, g21, g22, globalX, globalY);
             }
         }
 
