@@ -223,19 +223,8 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             }
         }
 
-        private double _lengthX = 10;
-        public virtual double LengthX
-        {
-            get => _lengthX;
-            set
-            {
-                if (_lengthX != value && value > 0)
-                {
-                    this.RaiseAndSetIfChanged(ref _lengthX, value);
-                }
-            }
-        }
-        public virtual double LengthY { get; set; } = 0;
+        private const double LengthX = 10;
+        private const double LengthY = 0;
 
         public double G11 { get; private set; } = 1;
         public double G12 { get; private set; } = 0;
@@ -397,7 +386,7 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         /// <param name="y">Click y coordinate</param>
         public virtual void Scale(double x, double y)
         {
-            this.LengthX = Math.Sqrt((x - this.X) * (x - this.X) + (y - this.Y) * (y - this.Y));
+            //this.LengthX = Math.Sqrt((x - this.X) * (x - this.X) + (y - this.Y) * (y - this.Y));
         }
 
         public double ScaleX { get; set; } = 1;
@@ -414,8 +403,8 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         /// </summary>
         public void DrawBone(Canvas canvas)
         {
-            double endX = this.GlobalX + (this.LengthX * this.G11);
-            double endY = this.GlobalY + (this.LengthX * this.G12);
+            double endX = this.GlobalX + (LengthX * this.G11);
+            double endY = this.GlobalY + (LengthX * this.G12);
 
             Point start = new Point(
                 canvas.Width / 2 + this.GlobalX,
@@ -523,6 +512,8 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
                 Rotation = this.BaseA,
                 ShearX = this.ShearX,
                 ShearY = this.ShearY,
+                ScaleX = this.ScaleX,
+                ScaleY = this.ScaleY,
             };
         }
 
@@ -575,5 +566,11 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
 
         [JsonProperty("shearY", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public double ShearY { get; set; }
+
+        [JsonProperty("scaleX", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public double ScaleX { get; set; }
+
+        [JsonProperty("scaleY", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public double ScaleY { get; set; }
     }
 }

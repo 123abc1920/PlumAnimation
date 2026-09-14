@@ -477,11 +477,11 @@
 
                                         <TextBox
                                             x:Name="scaleX"
-                                            Text="{Binding CurrentBone.LengthX, Mode=TwoWay, Converter={StaticResource DoubleConverter}}"
+                                            Text="{Binding CurrentBone.ScaleX, Mode=TwoWay, Converter={StaticResource DoubleConverter}}"
                                             Watermark="X" />
                                         <TextBox
                                             x:Name="scaleY"
-                                            Text="{Binding CurrentBone.LengthY, Mode=TwoWay, Converter={StaticResource DoubleConverter}}"
+                                            Text="{Binding CurrentBone.ScaleY, Mode=TwoWay, Converter={StaticResource DoubleConverter}}"
                                             Watermark="Y" />
 
                                         <ToggleButton

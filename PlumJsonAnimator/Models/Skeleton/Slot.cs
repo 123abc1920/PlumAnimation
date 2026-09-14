@@ -123,31 +123,8 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             }
         }
 
-        private double _lengthX = 100;
-        public override double LengthX
-        {
-            get => _lengthX;
-            set
-            {
-                if (_lengthX != value && value > 0)
-                {
-                    this.RaiseAndSetIfChanged(ref _lengthX, value);
-                }
-            }
-        }
-
-        private double _lengthY = 100;
-        public override double LengthY
-        {
-            get => _lengthY;
-            set
-            {
-                if (_lengthY != value && value > 0)
-                {
-                    this.RaiseAndSetIfChanged(ref _lengthY, value);
-                }
-            }
-        }
+        public double LengthX { get; set; } = 100;
+        public double LengthY { get; set; } = 100;
 
         private Bone? _boundedBone;
         public Bone? BoundedBone
@@ -166,6 +143,9 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
                 }
             }
         }
+
+        public double ScaleX { get; set; } = 1;
+        public double ScaleY { get; set; } = 1;
 
         public double GlobalX
         {
