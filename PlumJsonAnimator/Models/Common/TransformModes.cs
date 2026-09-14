@@ -150,9 +150,34 @@ namespace PlumJsonAnimator.Models.Common
                 startY = y;
                 return;
             }
+            var dx = 0.0;
+            var dy = 0.0;
+            if (Math.Abs(x - (double)startX) > Math.Abs(y - (double)startY))
+            {
+                if (x - (double)startX > 0)
+                {
+                    dx = 0.01;
+                }
+                else
+                {
+                    dx = -0.01;
+                }
+            }
+            else
+            {
+                if (y - (double)startY > 0)
+                {
+                    dy = 0.01;
+                }
+                else
+                {
+                    dy = -0.01;
+                }
+            }
+
+            bone.Scale(bone.ScaleX + dx, bone.ScaleY + dy);
             startX = x;
             startY = y;
-            bone.Scale(x, y);
         }
     }
 
