@@ -21,14 +21,14 @@ namespace PlumJsonAnimator.Models.Common
     /// </summary>
     public abstract class Mode
     {
-        public TransformModesTypes type;
-        public string name = "";
+        public TransformModesTypes Type { get; set; }
+        public string Name { get; set; } = "";
 
-        protected GlobalState globalState;
+        protected GlobalState _globalState;
 
         public Mode(GlobalState globalState)
         {
-            this.globalState = globalState;
+            _globalState = globalState;
         }
 
         public abstract void ClearMode();
@@ -41,8 +41,8 @@ namespace PlumJsonAnimator.Models.Common
         public NoMode(GlobalState globalState)
             : base(globalState)
         {
-            type = TransformModesTypes.NO;
-            name = "";
+            Type = TransformModesTypes.NO;
+            Name = "";
         }
 
         public override void ClearMode() { }
@@ -58,8 +58,8 @@ namespace PlumJsonAnimator.Models.Common
         public TransformMode(GlobalState globalState)
             : base(globalState)
         {
-            type = TransformModesTypes.TRANSLATE;
-            name = "transform";
+            Type = TransformModesTypes.TRANSLATE;
+            Name = "transform";
         }
 
         public override void ClearMode() { }
@@ -67,9 +67,9 @@ namespace PlumJsonAnimator.Models.Common
         public override void Transform(Bone bone, double x, double y)
         {
             bone.Move(x, y);
-            if (this.globalState.setBasePos == false)
+            if (_globalState.setBasePos == false)
             {
-                var animation = this.globalState.CurrentProject?.GetCurrentAnimation();
+                var animation = _globalState.CurrentProject?.GetCurrentAnimation();
                 if (animation != null && !animation.IsRun && bone.IsBone == true)
                 {
                     animation.TranslateBone(bone, bone.X, bone.Y);
@@ -82,21 +82,21 @@ namespace PlumJsonAnimator.Models.Common
     {
         private class Point
         {
-            public double x;
-            public double y;
+            public double _x;
+            public double _y;
 
             public Point(double x, double y)
             {
-                this.x = x;
-                this.y = y;
+                _x = x;
+                _y = y;
             }
         }
 
         public RotateMode(GlobalState globalState)
             : base(globalState)
         {
-            type = TransformModesTypes.ROTATE;
-            name = "rotate";
+            Type = TransformModesTypes.ROTATE;
+            Name = "rotate";
         }
 
         public override void ClearMode() { }
@@ -107,15 +107,15 @@ namespace PlumJsonAnimator.Models.Common
             Point av = new Point(xx, y - bone.Y);
             Point bv = new Point(10, 0);
 
-            double dot = av.x * bv.x + av.y * bv.y;
-            double det = av.x * bv.y - av.y * bv.x;
+            double dot = av._x * bv._x + av._y * bv._y;
+            double det = av._x * bv._y - av._y * bv._x;
             double angleRad = Math.Atan2(det, dot);
             double angleDeg = angleRad * 180 / Math.PI;
 
             bone.Rotate(-angleDeg);
-            if (this.globalState.setBasePos == false)
+            if (_globalState.setBasePos == false)
             {
-                var animation = this.globalState.CurrentProject?.GetCurrentAnimation();
+                var animation = _globalState.CurrentProject?.GetCurrentAnimation();
                 if (animation != null && !animation.IsRun && bone.IsBone == true)
                 {
                     animation.RotateBone(bone, bone.A);
@@ -132,8 +132,8 @@ namespace PlumJsonAnimator.Models.Common
         public ScaleMode(GlobalState globalState)
             : base(globalState)
         {
-            type = TransformModesTypes.SCALE;
-            name = "scale";
+            Type = TransformModesTypes.SCALE;
+            Name = "scale";
         }
 
         public override void ClearMode()
@@ -178,6 +178,15 @@ namespace PlumJsonAnimator.Models.Common
             bone.Scale(bone.ScaleX + dx, bone.ScaleY + dy);
             startX = x;
             startY = y;
+
+            if (_globalState.setBasePos == false)
+            {
+                var animation = _globalState.CurrentProject?.GetCurrentAnimation();
+                if (animation != null && !animation.IsRun && bone.IsBone == true)
+                {
+                    animation.ScaleBone(bone, bone.ScaleX, bone.ScaleY);
+                }
+            }
         }
     }
 
@@ -196,8 +205,8 @@ namespace PlumJsonAnimator.Models.Common
         public ShearMode(GlobalState globalState)
             : base(globalState)
         {
-            type = TransformModesTypes.SHEAR;
-            name = "shear";
+            Type = TransformModesTypes.SHEAR;
+            Name = "shear";
         }
 
         public override void ClearMode()
@@ -251,9 +260,9 @@ namespace PlumJsonAnimator.Models.Common
 
             bone.Shear(newShearX, newShearY);
 
-            if (this.globalState.setBasePos == false)
+            if (_globalState.setBasePos == false)
             {
-                var animation = this.globalState.CurrentProject?.GetCurrentAnimation();
+                var animation = _globalState.CurrentProject?.GetCurrentAnimation();
                 if (animation != null && !animation.IsRun && bone.IsBone == true)
                 {
                     animation.ShearBone(bone, bone.ShearX, bone.ShearY);

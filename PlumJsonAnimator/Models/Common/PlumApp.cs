@@ -388,7 +388,7 @@ public class PlumApp
             AddKeyFrameCommand addKeyFrameCommand = new AddKeyFrameCommand(
                 GlobalState.CurrentProject.CurrentAnimation,
                 GlobalState.currentBone,
-                GlobalState.CurrentProject.currentMode.type
+                GlobalState.CurrentProject.currentMode.Type
             );
             this._historyManager.DoCommand(addKeyFrameCommand);
         }
@@ -401,7 +401,7 @@ public class PlumApp
             DeleteKeyFrameCommand deleteKeyFrameCommand = new DeleteKeyFrameCommand(
                 GlobalState.CurrentProject.CurrentAnimation,
                 GlobalState.currentBone,
-                GlobalState.CurrentProject.currentMode.type
+                GlobalState.CurrentProject.currentMode.Type
             );
             this._historyManager.DoCommand(deleteKeyFrameCommand);
         }

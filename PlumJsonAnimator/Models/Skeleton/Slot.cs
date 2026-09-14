@@ -290,12 +290,12 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         /// <param name="y">Y click coordinate</param>
         public override void Scale(double x, double y)
         {
-            if (this.CurrentAttachment != null)
+            if (CurrentAttachment != null)
             {
-                this.LengthX = Math.Abs(x - this.X) * 5;
-                this.LengthY = Math.Abs(y - this.Y) * 5;
+                LengthX = Math.Abs(x - this.X) * 5;
+                LengthY = Math.Abs(y - this.Y) * 5;
 
-                this.CurrentAttachment.SetSize(this.LengthX, this.LengthY);
+                CurrentAttachment.SetSize(this.LengthX, this.LengthY);
             }
         }
 

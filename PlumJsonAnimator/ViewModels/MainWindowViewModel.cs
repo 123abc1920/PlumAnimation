@@ -520,7 +520,7 @@ public partial class MainWindowViewModel : ViewModelBase
                 CurrentTime = CurrentProject.CurrentAnimation.FindKeyFrame(
                     CurrentBone,
                     CurrentProject.CurrentAnimation.currentTime,
-                    CurrentProject.currentMode.type,
+                    CurrentProject.currentMode.Type,
                     false
                 );
             }
@@ -532,7 +532,7 @@ public partial class MainWindowViewModel : ViewModelBase
                 CurrentTime = CurrentProject.CurrentAnimation.FindKeyFrame(
                     CurrentBone,
                     CurrentProject.CurrentAnimation.currentTime,
-                    CurrentProject.currentMode.type,
+                    CurrentProject.currentMode.Type,
                     true
                 );
             }

@@ -27,7 +27,7 @@ namespace PlumJsonAnimator.Common.Constants
 
         public Mode CreateMode(Mode old, TransformModesTypes type)
         {
-            if (old.type == type)
+            if (old.Type == type)
             {
                 return _modes[TransformModesTypes.NO];
             }

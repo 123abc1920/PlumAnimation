@@ -516,6 +516,10 @@ namespace PlumJsonAnimator.Models
                             {
                                 animation.ShearBone(bone, keyframe.X, keyframe.Y, keyframe.Time);
                             }
+                            foreach (IKeyframeTypeData keyframe in boneAnimation.scale)
+                            {
+                                animation.ScaleBone(bone, keyframe.X, keyframe.Y, keyframe.Time);
+                            }
                         }
                         if (animationData.DrawOrder != null && animationData != null)
                         {
