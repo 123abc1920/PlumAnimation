@@ -73,9 +73,9 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
             CurrentAttachment = attachment;
             if (CurrentAttachment != null && BoundedBone != null)
             {
-                LocalX = CurrentAttachment.x;
-                LocalY = CurrentAttachment.y;
-                LocalA = CurrentAttachment.a;
+                LocalX = CurrentAttachment._x;
+                LocalY = CurrentAttachment._y;
+                LocalA = CurrentAttachment._a;
 
                 var size = CurrentAttachment.GetSize();
                 LengthX = size["width"] ?? LengthX;
@@ -277,11 +277,13 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         /// <param name="y">Y click coordinate</param>
         public override void Scale(double x, double y)
         {
-            Console.WriteLine(x);
             if (CurrentAttachment != null)
             {
-                LengthX = x;
-                LengthY = y;
+                LengthX *= x;
+                LengthY *= y;
+
+                ScaleX = x;
+                ScaleY = y;
 
                 CurrentAttachment.SetSize(LengthX, LengthY);
             }
