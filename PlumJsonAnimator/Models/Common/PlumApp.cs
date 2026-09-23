@@ -359,7 +359,7 @@ public class PlumApp
 
     public void AddSlot()
     {
-        Bone? bone = GlobalState.currentBone;
+        Bone? bone = GlobalState.CurrentBone;
         if (bone != null)
         {
             Slot s = new Slot(GlobalState, bone);
@@ -375,7 +375,7 @@ public class PlumApp
             DeleteSlotCommand deleteSlotCommand = new DeleteSlotCommand(
                 GlobalState.CurrentProject,
                 selectedSlot,
-                GlobalState.currentBone
+                GlobalState.CurrentBone
             );
             this._historyManager.DoCommand(deleteSlotCommand);
         }
@@ -383,11 +383,11 @@ public class PlumApp
 
     public void AddKeyFrame()
     {
-        if (GlobalState.currentBone != null)
+        if (GlobalState.CurrentBone != null)
         {
             AddKeyFrameCommand addKeyFrameCommand = new AddKeyFrameCommand(
                 GlobalState.CurrentProject.CurrentAnimation,
-                GlobalState.currentBone,
+                GlobalState.CurrentBone,
                 GlobalState.CurrentProject.currentMode.Type
             );
             this._historyManager.DoCommand(addKeyFrameCommand);
@@ -396,11 +396,11 @@ public class PlumApp
 
     public void DeleteKeyFrame()
     {
-        if (GlobalState.currentBone != null)
+        if (GlobalState.CurrentBone != null)
         {
             DeleteKeyFrameCommand deleteKeyFrameCommand = new DeleteKeyFrameCommand(
                 GlobalState.CurrentProject.CurrentAnimation,
-                GlobalState.currentBone,
+                GlobalState.CurrentBone,
                 GlobalState.CurrentProject.currentMode.Type
             );
             this._historyManager.DoCommand(deleteKeyFrameCommand);
@@ -416,13 +416,13 @@ public class PlumApp
 
     public void Transform(double a, double b)
     {
-        GlobalState.CurrentProject?.currentMode.Transform(GlobalState.currentBone, a, b);
+        GlobalState.CurrentProject?.currentMode.Transform(GlobalState.CurrentBone, a, b);
     }
 
     public void ChangeBoneStatus(BoneStatus oldBoneStatus, BoneStatus newBoneStatus, bool isAnim)
     {
         ChangeBoneStatusCommand changeBoneStatusCommand = new ChangeBoneStatusCommand(
-            GlobalState.currentBone,
+            GlobalState.CurrentBone,
             oldBoneStatus,
             newBoneStatus,
             GlobalState.CurrentProject.CurrentAnimation,

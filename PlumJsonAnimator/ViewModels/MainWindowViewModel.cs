@@ -29,12 +29,12 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public int CanvasWidth
     {
-        get { return this.globalState.canvasWidth; }
+        get { return this._globalState.canvasWidth; }
         set
         {
-            if (this.globalState.canvasWidth != value)
+            if (this._globalState.canvasWidth != value)
             {
-                this.globalState.canvasWidth = value;
+                this._globalState.canvasWidth = value;
                 OnPropertyChanged(nameof(CanvasWidth));
             }
         }
@@ -42,12 +42,12 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public int CanvasHeight
     {
-        get { return this.globalState.canvasHeight; }
+        get { return this._globalState.canvasHeight; }
         set
         {
-            if (this.globalState.canvasHeight != value)
+            if (this._globalState.canvasHeight != value)
             {
-                this.globalState.canvasHeight = value;
+                this._globalState.canvasHeight = value;
                 OnPropertyChanged(nameof(CanvasHeight));
             }
         }
@@ -55,12 +55,13 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public int CurrentTab
     {
-        get => this.globalState.currentTab;
+        get => _globalState.currentTab;
         set
         {
-            if (this.globalState.currentTab != value)
+            if (_globalState.currentTab != value)
             {
-                this.globalState.currentTab = value;
+                _globalState.currentTab = value;
+                CurrentBone = null;
                 OnPropertyChanged(nameof(CurrentTab));
             }
         }
@@ -87,22 +88,22 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public JsonError JsonErrorObj
     {
-        get { return this.globalState.jsonError; }
+        get { return this._globalState.jsonError; }
     }
 
     public int FPS
     {
-        get { return this.globalState.FPS; }
+        get { return this._globalState.FPS; }
     }
 
     public bool DrawBones
     {
-        get { return this.globalState.drawBones; }
+        get { return this._globalState.drawBones; }
         set
         {
-            if (this.globalState.drawBones != value)
+            if (this._globalState.drawBones != value)
             {
-                this.globalState.drawBones = value;
+                this._globalState.drawBones = value;
                 OnPropertyChanged(nameof(DrawBones));
             }
         }
@@ -110,12 +111,12 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public bool SetBasePos
     {
-        get { return this.globalState.setBasePos; }
+        get { return this._globalState.setBasePos; }
         set
         {
-            if (this.globalState.setBasePos != value)
+            if (this._globalState.setBasePos != value)
             {
-                this.globalState.setBasePos = value;
+                this._globalState.setBasePos = value;
                 OnPropertyChanged(nameof(SetBasePos));
             }
         }
@@ -123,12 +124,12 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public bool CaptureMode
     {
-        get { return this.globalState.captureMode; }
+        get { return this._globalState.captureMode; }
         set
         {
-            if (this.globalState.captureMode != value)
+            if (this._globalState.captureMode != value)
             {
-                this.globalState.captureMode = value;
+                this._globalState.captureMode = value;
                 OnPropertyChanged(nameof(CaptureMode));
             }
         }
@@ -146,23 +147,23 @@ public partial class MainWindowViewModel : ViewModelBase
 
                 if (value == "transform")
                 {
-                    CurrentProject!.currentMode = new TransformMode(this.globalState);
+                    CurrentProject!.currentMode = new TransformMode(this._globalState);
                 }
                 else if (value == "rotate")
                 {
-                    CurrentProject!.currentMode = new RotateMode(this.globalState);
+                    CurrentProject!.currentMode = new RotateMode(this._globalState);
                 }
                 else if (value == "scale")
                 {
-                    CurrentProject!.currentMode = new ScaleMode(this.globalState);
+                    CurrentProject!.currentMode = new ScaleMode(this._globalState);
                 }
                 else if (value == "shear")
                 {
-                    CurrentProject!.currentMode = new ShearMode(this.globalState);
+                    CurrentProject!.currentMode = new ShearMode(this._globalState);
                 }
                 else
                 {
-                    CurrentProject!.currentMode = new NoMode(this.globalState);
+                    CurrentProject!.currentMode = new NoMode(this._globalState);
                 }
 
                 OnPropertyChanged(nameof(TransformMode));
@@ -187,8 +188,8 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public DateTime LastSaveTime
     {
-        get => globalState.LastSaveTime;
-        set => globalState.LastSaveTime = value;
+        get => _globalState.LastSaveTime;
+        set => _globalState.LastSaveTime = value;
     }
 
     public object CurrentInfoPanel { get; set; }
@@ -197,21 +198,17 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public Bone? CurrentBone
     {
-        get => this.globalState.currentBone;
+        get => _globalState.CurrentBone;
         set
         {
-            if (this.globalState.currentBone != value)
+            if (_globalState.CurrentBone != value)
             {
-                this.globalState.currentBone = value;
-                this.globalState.currentBone?.UpdateSlots();
+                _globalState.CurrentBone = value;
+                _globalState.CurrentBone?.UpdateSlots();
                 // TODO: фабрика
                 CurrentInfoPanel = new BoneInfo();
                 OnPropertyChanged(nameof(CurrentBone));
                 OnPropertyChanged(nameof(CurrentInfoPanel));
-            }
-            else
-            {
-                this.globalState.currentBone = null;
             }
         }
     }
@@ -221,16 +218,16 @@ public partial class MainWindowViewModel : ViewModelBase
     private const double MAX_ZOOM_CANVAS = 5.0;
     public double ZoomCanvas
     {
-        get => this.globalState.zoomCanvas;
+        get => this._globalState.zoomCanvas;
         set
         {
             if (
-                this.globalState.zoomCanvas != value
+                this._globalState.zoomCanvas != value
                 && value > MIN_ZOOM_CANVAS
                 && value < MAX_ZOOM_CANVAS
             )
             {
-                this.globalState.zoomCanvas = value;
+                this._globalState.zoomCanvas = value;
                 CanvasWidth = (int)(GlobalState.BASE_CANVAS_SIZE * value);
                 CanvasHeight = (int)(GlobalState.BASE_CANVAS_SIZE * value);
                 OnPropertyChanged(nameof(ZoomCanvas));
@@ -327,7 +324,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public void Transform(double a, double b)
     {
-        if (this.globalState.currentBone != null)
+        if (this._globalState.CurrentBone != null)
         {
             this.PlumApp.Transform(a, b);
         }
@@ -404,7 +401,7 @@ public partial class MainWindowViewModel : ViewModelBase
         var appSettingsVM = (AppSettingsViewModel)GetViewModel(DialogType.SETTINGS);
         appSettingsVM.CurrentTheme = appSettingsVM.Themes[0];
 
-        this.globalState.TimeUpdated += () =>
+        this._globalState.TimeUpdated += () =>
         {
             foreach (Slot s in CurrentProject.Slots)
             {

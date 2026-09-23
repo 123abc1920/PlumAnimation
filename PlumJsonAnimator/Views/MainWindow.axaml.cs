@@ -234,7 +234,7 @@ public partial class MainWindow : SukiWindow
                     {
                         if (DataContext is MainWindowViewModel viewModel)
                         {
-                            viewModel.DropSlotToBone(bone.id, res);
+                            viewModel.DropSlotToBone(bone._id, res);
                             return;
                         }
                     }

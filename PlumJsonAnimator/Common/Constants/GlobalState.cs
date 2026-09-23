@@ -51,7 +51,7 @@ namespace PlumJsonAnimator.Common.Constants
 
         public int currentTab;
 
-        public Bone? currentBone = null;
+        public Bone? CurrentBone { get; set; } = null;
         public string theme = "light";
         public bool drawBones = true;
         public bool setBasePos = true;
@@ -101,7 +101,7 @@ namespace PlumJsonAnimator.Common.Constants
 
         public IImmutableBrush GetDotBoneColor(Bone b)
         {
-            if (this.currentBone == b && this.currentBone.IsBone == true)
+            if (this.CurrentBone == b && this.CurrentBone.IsBone == true)
             {
                 return AppColors.Red;
             }
@@ -113,7 +113,7 @@ namespace PlumJsonAnimator.Common.Constants
 
         public IImmutableBrush GetLineBoneColor(Bone b)
         {
-            if (this.currentBone == b && this.currentBone.IsBone == true)
+            if (this.CurrentBone == b && this.CurrentBone.IsBone == true)
             {
                 return AppColors.Blue;
             }
@@ -125,9 +125,9 @@ namespace PlumJsonAnimator.Common.Constants
 
         public bool IsSlotSelected(Slot slot)
         {
-            if (this.currentBone != null)
+            if (this.CurrentBone != null)
             {
-                if (!this.currentBone.IsBone && this.currentBone == slot)
+                if (!this.CurrentBone.IsBone && this.CurrentBone == slot)
                 {
                     return true;
                 }

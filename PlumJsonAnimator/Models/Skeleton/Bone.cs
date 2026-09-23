@@ -18,7 +18,7 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
     /// </summary>
     public class Bone : ReactiveObject, IRenamable
     {
-        public int id = 0;
+        public int _id = 0;
 
         [Reactive]
         public string Name { get; set; } = "";
@@ -264,7 +264,7 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         )
             : this()
         {
-            id = _id;
+            this._id = _id;
             string name = "bone";
             Name = $"{name}{Counter.GenerateNamePostfix()}";
 
@@ -289,7 +289,7 @@ namespace PlumJsonAnimator.Models.SkeletonNameSpace
         {
             Name = name;
 
-            id = 100;
+            _id = 100;
 
             _globalState = globalState;
             _localizationService = localizationService;
